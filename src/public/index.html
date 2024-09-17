@@ -1,18 +1,18 @@
 <html>
 <head>
-
+    <base href="https://ncmesh.net/map/">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Meshtastic Map</title>
-    <meta name="title" content="Meshtastic Map">
-    <meta name="description" content="An interactive map of all Meshtastic nodes.">
+    <title>NC Mesh Map</title>
+    <meta name="title" content="NC Mesh Map">
+    <meta name="description" content="An interactive map of all Meshtastic nodes in NC Mesh.">
     <link rel="icon" type="image/png" href="/icon.png"/>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://meshtastic.liamcottle.net">
-    <meta property="og:title" content="Meshtastic Map">
-    <meta property="og:description" content="An interactive map of all Meshtastic nodes.">
+    <meta property="og:url" content="https://ncmesh.net/map/">
+    <meta property="og:title" content="NC Mesh Map">
+    <meta property="og:description" content="An interactive map of all Meshtastic nodes in NC Mesh.">
 
     <!-- tailwind css -->
     <script src="assets/js/tailwindcss/tailwind-v3.4.3-forms-v0.5.7.js"></script>
@@ -145,30 +145,6 @@
     <div class="flex flex-col h-full w-full overflow-hidden">
         <div class="flex flex-col h-full">
 
-            <!-- announcement -->
-            <div v-if="isShowingAnnouncement" class="flex bg-yellow-300 p-2 border-gray-300 border-b">
-
-                <!-- info -->
-                <div class="my-auto leading-tight">
-                    <div class="font-bold">Service Announcement</div>
-                    <div class="text-sm">
-                        <span>Changes were made to mqtt.meshtastic.org. Uplink your nodes to <button @click="isShowingInfoModal = true" type="button" class="link">our MQTT server</button> to continue showing on this map.</span>
-                    </div>
-                </div>
-
-                <!-- action buttons -->
-                <div class="flex my-auto ml-auto mr-0 sm:mr-2">
-                    <a @click="dismissAnnouncement" href="javascript:void(0)" class="rounded-full">
-                        <div class="bg-white hover:bg-gray-100 p-2 rounded-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                            </svg>
-                        </div>
-                    </a>
-                </div>
-
-            </div>
-
             <!-- header -->
             <div class="flex bg-white p-2 border-gray-300 border-b h-16">
 
@@ -185,15 +161,15 @@
 
                 <!-- icon -->
                 <div v-if="!isShowingMobileSearch" class="hidden sm:block my-auto mr-3">
-                    <img class="w-10 h-10 rounded" src="icon.png"/>
+                    <a href="https://ncmesh.net"><img class="w-10 h-10 rounded" src="icon.png"/></a>
                 </div>
 
                 <!-- app info -->
                 <div v-if="!isShowingMobileSearch" class="my-auto leading-tight">
-                    <div class="font-bold">Meshtastic Map</div>
-                    <div class="text-sm">
-                        Created by <a class="link" target="_blank" href="https://liamcottle.com">Liam Cottle</a>
-                    </div>
+                    <div class="font-bold"><a href="https://ncmesh.net">NC Mesh</a></div>
+                    <!--<div class="text-sm">
+                        <a class="link" target="_blank" href="https://ncmesh.net">ncmesh.net</a>
+                    </div>-->
                 </div>
 
                 <!-- search bar -->
@@ -231,7 +207,7 @@
 
                 <!-- header action buttons -->
                 <div v-if="!isShowingMobileSearch" class="flex my-auto ml-auto mr-0 sm:mr-2 space-x-1 sm:space-x-2">
-                    <a @click="isShowingInfoModal = true" href="javascript:void(0)" class="tooltip rounded-full">
+                    <!--<a @click="isShowingInfoModal = true" href="javascript:void(0)" class="tooltip rounded-full">
                         <div class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full">
                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
@@ -240,7 +216,7 @@
                         <div class="hidden sm:block">
                             <span class="tooltip-text">About</span>
                         </div>
-                    </a>
+                    </a>-->
                     <a @click="isShowingMobileSearch = true" href="javascript:void(0)" class="tooltip rounded-full block lg:hidden">
                         <div id="search-button" class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full">
                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -310,182 +286,6 @@
         </div>
     </div>
 
-    <!-- info modal -->
-    <div class="relative z-sidebar">
-
-        <!-- overlay -->
-        <transition
-                enter-active-class="transition-opacity duration-300 ease-linear"
-                enter-from-class="opacity-0"
-                enter-to-class="opacity-100"
-                leave-active-class="transition-opacity duration-300 ease-linear"
-                leave-from-class="opacity-100"
-                leave-to-class="opacity-0">
-            <div v-show="isShowingInfoModal" @click="dismissInfoModal" class="fixed inset-0 bg-gray-900 bg-opacity-75"></div>
-        </transition>
-
-        <!-- modal -->
-        <transition
-                enter-active-class="transition duration-300 ease-in-out transform"
-                enter-from-class="translate-y-full"
-                enter-to-class="translate-y-0"
-                leave-active-class="transition duration-300 ease-in-out transform"
-                leave-from-class="translate-y-0"
-                leave-to-class="translate-y-full">
-            <div @click="dismissInfoModal" v-show="isShowingInfoModal" class="fixed left-0 right-0 top-0 bottom-0 lg:pointer-events-none">
-                <div class="flex w-full h-full overflow-y-auto p-4">
-                    <div @click.stop class="mx-auto my-auto w-full max-w-2xl flex-col bg-white shadow-xl rounded-xl p-2 lg:pointer-events-auto">
-                        <div class="relative flex">
-
-                            <!-- close button -->
-                            <div class="absolute top-0 right-0">
-                                <div class="h-7">
-                                    <a href="javascript:void(0)" class="rounded-full" @click="dismissInfoModal">
-                                        <div class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full">
-                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M18 6l-12 12"></path>
-                                                <path d="M6 6l12 12"></path>
-                                            </svg>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- content -->
-                            <div class="flex flex-col w-full py-2 space-y-2">
-
-                                <!-- app info -->
-                                <div class="w-full mx-auto text-center">
-                                    <img src="./icon.png" class="mx-auto w-16 h-16 rounded mb-1"/>
-                                    <h1 class="font-bold">Meshtastic Map</h1>
-                                    <h2>Created by <a class="link" target="_blank" href="https://liamcottle.com">Liam Cottle</a></h2>
-                                    <div class="w-full mx-auto text-center space-x-1 mt-2">
-
-                                        <a target="_blank" href="https://twitter.com/liamcottle" title="Twitter" class="raise inline-flex items-center p-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-[#1da1f2] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1da1f2]">
-                                            <svg role="img" class="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="currentColor" d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path>
-                                            </svg>
-                                        </a>
-
-                                        <a target="_blank" href="https://github.com/liamcottle/meshtastic-map" title="GitHub" class="raise inline-flex items-center p-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-[#333333] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#333333]">
-                                            <svg role="img" class="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
-                                            </svg>
-                                        </a>
-
-                                        <a target="_blank" href="https://discord.gg/K55zeZyHKK" title="Discord" class="raise inline-flex items-center p-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-[#5865f2] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865f2]">
-                                            <svg role="img" class="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path>
-                                            </svg>
-                                        </a>
-
-                                        <a target="_blank" href="https://paypal.me/liamcarncottle" title="PayPal" class="raise inline-flex items-center p-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-[#0070ba] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0070ba]">
-                                            <svg role="img" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48">
-                                                <path fill="#fff" fill-opacity=".45" d="M16.13 39.115H8.367a1.041 1.041 0 0 1-1.026-1.2l5.234-33.176a1.279 1.279 0 0 1 1.261-1.079h13.335c6.315 0 10.909 4.592 10.8 10.157 3.735 1.95 5.915 5.91 5.234 10.247a12.548 12.548 0 0 1-12.39 10.62H26.89a1.275 1.275 0 0 0-1.261 1.08L23.87 46.9a1.276 1.276 0 0 1-1.262 1.079H15.94a1.04 1.04 0 0 1-1.026-1.199l1.215-7.664v-.002Z"></path>
-                                                <path fill="#fff" fill-opacity=".45" d="M37.973 13.817a11.668 11.668 0 0 0-5.441-1.294H21.414a1.277 1.277 0 0 0-1.261 1.08l-2.098 13.293.006-.035a1.28 1.28 0 0 1 1.256-1.042h6.144a12.553 12.553 0 0 0 12.39-10.62c.071-.457.113-.92.122-1.382Z"></path>
-                                                <path fill="#fff" d="M16.133 39.115H8.368a1.041 1.041 0 0 1-1.026-1.2l5.234-33.176a1.279 1.279 0 0 1 1.261-1.079h13.335c6.315 0 10.909 4.592 10.801 10.157a11.67 11.67 0 0 0-5.441-1.294H21.414a1.277 1.277 0 0 0-1.261 1.08l-2.098 13.293.006-.035-1.928 12.254Z"></path>
-                                            </svg>
-                                        </a>
-
-                                        <a target="_blank" href="https://liamcottle.com/contact" title="Email" class="raise inline-flex items-center p-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                            </svg>
-                                        </a>
-
-                                    </div>
-                                </div>
-
-                                <!-- welcome -->
-                                <div class="bg-green-100 rounded p-2 border border-green-200">
-                                    👋 Welcome to my open source map of Meshtastic nodes heard on MQTT.
-                                </div>
-
-                                <!-- features -->
-                                <div>
-                                    <div class="font-bold mb-2">Features</div>
-                                    <div class="bg-gray-100 rounded p-2 border border-gray-200">
-                                        <ul class="list-disc list-inside">
-                                            <li>The map shows nodes that have sent a valid position to MQTT.</li>
-                                            <li>Position packets must be unencrypted, or encrypted with the default key.</li>
-                                            <li>Use the search bar to find nodes by ID or name.</li>
-                                            <li>Hover over nodes (on desktop) to see basic details.</li>
-                                            <li>Click a node to see info such as telemetry graphs and traceroutes.</li>
-                                            <li>Use the top right layers panel to show neighbours and waypoints.</li>
-                                            <li>Use the settings button to configure the map to your liking.</li>
-                                            <li>Have a feature request, or found a bug? <a class="link" target="_blank" href="https://github.com/liamcottle/meshtastic-map">Open an issue</a> on GitHub.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <!-- faq -->
-                                <div>
-                                    <div class="font-bold mb-2">FAQ</div>
-                                    <div class="space-y-2">
-                                        <div class="bg-gray-100 rounded p-2 border border-gray-200">
-                                            <div class="font-semibold">How do I add my node to the map?</div>
-                                            <div>Your node, or a node that hears your node must uplink to our MQTT server.</div>
-                                            <div>Your position packet must be unencrypted, or encrypted with the default key.</div>
-                                            <div>Use the MQTT server details below to uplink to this map.</div>
-                                        </div>
-                                        <div class="bg-gray-100 rounded p-2 border border-gray-200">
-                                            <div class="font-semibold">What MQTT server should I use?</div>
-                                            <ul class="list-disc list-inside">
-                                                <li>Address: mqtt.meshtastic.liamcottle.net</li>
-                                                <li>Username: uplink</li>
-                                                <li>Password: uplink</li>
-                                                <li>Encryption Enabled: Yes</li>
-                                                <li>JSON Output: No</li>
-                                                <li>TLS Enabled: No</li>
-                                            </ul>
-                                            <div>Please note, nodes can only uplink to this server. Downlink is disabled.</div>
-                                            <div>We suggest running dedicated nodes for uplinking to the map.</div>
-                                        </div>
-                                        <div class="bg-gray-100 rounded p-2 border border-gray-200">
-                                            <div class="font-semibold">How do I remove my node from the map?</div>
-                                            <div>Nodes that have not been heard for 7 days are automatically removed.</div>
-                                            <div>Disable position reporting in your node to prevent it coming back.</div>
-                                            <div>Use custom encryption keys so the public can't see your position data.</div>
-                                            <div>To have your node removed now, please <a target="_blank" href="https://liamcottle.com/contact" class="link">contact me</a>.</div>
-                                        </div>
-                                        <div class="bg-gray-100 rounded p-2 border border-gray-200">
-                                            <div class="font-semibold">How do I see neighbours a node heard?</div>
-                                            <div>Open the top right layers panel and enable neighbours.</div>
-                                            <div>Some neighbours are from MQTT, this is patched in latest firmware.</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- legal -->
-                                <div>
-                                    <div class="font-bold mb-2">Legal</div>
-                                    <div class="bg-gray-100 rounded p-2 border border-gray-200">
-                                        <div>This project is not affiliated with or endorsed by the <a class="link" target="_blank" href="https://meshtastic.org">Meshtastic</a> project.</div>
-                                        <div>The Meshtastic logo is the trademark of Meshtastic LLC.</div>
-                                        <div>Map tiles provided by <a class="link" target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a></div>
-                                    </div>
-                                </div>
-
-                                <!-- dismiss button -->
-                                <div class="mx-auto">
-                                    <a href="javascript:void(0)" @click="dismissInfoModal">
-                                        <div class="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-md shadow">
-                                            Dismiss
-                                        </div>
-                                    </a>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </transition>
-
-    </div>
-
     <!-- hardware models sidebar -->
     <div class="relative z-sidebar" role="dialog" aria-modal="true">
 
@@ -541,7 +341,7 @@
                                         <div class="absolute inset-0 group-hover:bg-gray-100" aria-hidden="true"></div>
                                         <div class="relative flex min-w-0 flex-1 items-center">
                                             <span class="relative inline-block flex-shrink-0 mr-4">
-                                                <img class="h-20 w-20 rounded object-contain" :src="`/images/devices/${hardwareModel.hardware_model_name}.png`" alt="" onerror="if(this.src != '/images/no_image.png') this.src = '/images/no_image.png';">
+                                                <img class="h-20 w-20 rounded object-contain" :src="`/map/images/devices/${hardwareModel.hardware_model_name}.png`" alt="" onerror="if(this.src != '/map/images/no_image.png') this.src = '/map/images/no_image.png';">
                                             </span>
                                             <div class="truncate">
                                                 <p class="truncate text-sm font-medium text-gray-900">{{ hardwareModel.hardware_model_name }}</p>
@@ -633,49 +433,8 @@
 
                             <div class="flex flex-col my-2">
                                 <div class="mx-auto">
-                                    <img class="h-48 w-48 rounded object-contain" :src="`/images/devices/${selectedNode.hardware_model_name}.png`" alt="" onerror="if(this.src != '/images/no_image.png') this.src = '/images/no_image.png';">
+                                    <img class="h-48 w-48 rounded object-contain" :src="`/map/images/devices/${selectedNode.hardware_model_name}.png`" alt="" onerror="if(this.src != '/map/images/no_image.png') this.src = '/map/images/no_image.png';">
                                 </div>
-                            </div>
-
-                            <!-- action buttons -->
-                            <div class="flex space-x-6 p-2 justify-center">
-
-                                <!-- sent messages -->
-                                <a target="_blank" :href="`/api/v1/text-messages/embed?from=${selectedNode.node_id}`" class="flex flex-col" title="Messages sent from this Node">
-                                    <div class="flex mx-auto mb-1">
-                                        <div class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m15 11.25-3-3m0 0-3 3m3-3v7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="mx-auto text-sm font-medium text-gray-900">Sent Msgs</div>
-                                </a>
-
-                                <!-- received messages -->
-                                <a target="_blank" :href="`/api/v1/text-messages/embed?to=${selectedNode.node_id}`" class="flex flex-col" title="Messages sent to this Node">
-                                    <div class="flex mx-auto mb-1">
-                                        <div class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="mx-auto text-sm font-medium text-gray-900">Received Msgs</div>
-                                </a>
-
-                                <!-- gated messages -->
-                                <a target="_blank" :href="`/api/v1/text-messages/embed?gateway_id=${selectedNode.node_id}`" class="flex flex-col" title="Messages gated to MQTT by this Node">
-                                    <div class="flex mx-auto mb-1">
-                                        <div class="bg-gray-100 hover:bg-gray-200 p-2 rounded-full">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="mx-auto text-sm font-medium text-gray-900">Gated Msgs</div>
-                                </a>
-
                             </div>
 
                             <!-- details -->
@@ -758,11 +517,7 @@
                             <div>
                                 <div @click.stop class="flex bg-gray-200 p-2 font-semibold">
                                     <div class="my-auto">Position</div>
-                                    <div class="ml-auto">
-                                        <button @click="showNodePositionHistory(selectedNode.node_id)" type="button" class="rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                                            Show History
-                                        </button>
-                                    </div>
+                                    <div class="ml-auto"></div>
                                 </div>
                                 <ul role="list" class="flex-1 divide-y divide-gray-200">
 
@@ -2547,7 +2302,7 @@
 
             },
             getShareLinkForNode: function(nodeId) {
-                return window.location.origin + `/?node_id=${nodeId}`;
+                return window.location.origin + `/map/?node_id=${nodeId}`;
             },
             copyShareLinkForNode: function(nodeId) {
 
@@ -3867,7 +3622,7 @@
 
         var loraFrequencyRange = getRegionFrequencyRange(node.region_name);
 
-        var tooltip = `<img class="mb-4 w-40 mx-auto" src="/images/devices/${node.hardware_model_name}.png" onerror="this.classList.add('hidden')"/>` +
+        var tooltip = `<img class="mb-4 w-40 mx-auto" src="/map/images/devices/${node.hardware_model_name}.png" onerror="this.classList.add('hidden')"/>` +
             `<b>${escapeString(node.long_name)}</b>` +
             `<br/>Short Name: ${escapeString(node.short_name)}` +
             `<br/>MQTT: ${mqttStatus}` +
