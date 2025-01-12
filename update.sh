@@ -11,3 +11,5 @@ npx --yes prisma generate
 # restart services
 service meshtastic-map restart
 service meshtastic-map-mqtt restart
+
+#test
